@@ -3,19 +3,15 @@
 ## 1.	Установить интерпретатор R
 <img width="772" height="568" alt="image" src="https://github.com/user-attachments/assets/d4f85c0a-c329-452c-a324-f397410d1d5d" />
 
-
-
 ## 2.	Установить Rstudio IDE
-
-<img width="395" height="305" alt="image" src="https://github.com/user-attachments/assets/69b0235e-aae4-4ba1-8a51-7e0e5dcae2a0" />
+<img width="1312" height="1061" alt="image" src="https://github.com/user-attachments/assets/f51acd8c-30eb-40b4-9a60-90237a2768f7" />
 
 ## 3.	Установить программный пакет swirl
+<img width="1312" height="1061" alt="image" src="https://github.com/user-attachments/assets/051c44df-9cb3-4964-9ef4-34585feb3f09" />
 
-<img width="328" height="266" alt="image" src="https://github.com/user-attachments/assets/4901cefa-df38-4780-af5e-1b346e036c39" />
+## 4.	Запустить задание с помощью swirl::swirl()
+<img width="1312" height="1061" alt="image" src="https://github.com/user-attachments/assets/3b56cd6e-c488-4907-8809-0b55acae9c0d" />
 
-##4.	Запустить задание с помощью swirl::swirl()
-
-<img width="311" height="251" alt="image" src="https://github.com/user-attachments/assets/d27395c6-c410-4cad-8d31-a50ca9777a8c" />
 
 
 
