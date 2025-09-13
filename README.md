@@ -1,8 +1,8 @@
 # Отчет по 1 проктической работе
 
 ## 1.	Установить интерпретатор R
+<img width="772" height="568" alt="image" src="https://github.com/user-attachments/assets/d4f85c0a-c329-452c-a324-f397410d1d5d" />
 
-<img width="772" height="568" alt="image" src="https://github.com/user-attachments/assets/bb163bb5-d7c1-4655-9b31-4c5b8d85450d" />
 
 
 ## 2.	Установить Rstudio IDE
