@@ -2,7 +2,7 @@
 
 ## 1.	Установить интерпретатор R
 
-<img width="384" height="283" alt="image" src="https://github.com/user-attachments/assets/7cba6547-e703-4d04-ba35-7c350d3c1e74" />
+<img width="311" height="251" alt="image" src="https://github.com/user-attachments/assets/d27395c6-c410-4cad-8d31-a50ca9777a8c" />
 
 ## 2.	Установить Rstudio IDE
 
