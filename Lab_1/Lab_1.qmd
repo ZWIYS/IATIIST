@@ -1,0 +1,96 @@
+---
+title: "Введение в R"
+author: "p.pluvkov@yandex.ru"
+format: 
+  md:
+    output-file: README.md
+---
+
+## Цель работы
+
+1.  Развить практические навыки использования языка программирования R для обработки данных
+2.  Развить навыки работы в Rstudio IDE: установка пакетов работа с проектами в Rstudio настройка и работа с Git
+3.  Закрепить знания базовых типов данных языка R и простейших операций с ним
+
+## Исходные данные
+
+1.  Програмное обеспеченье MacOS
+2.  RStudio
+3.  Интерпретатор языка R 4.5.1
+
+## План
+
+1.  Установить интерпретатор R
+2.  Установить Rstudio IDE
+3.  Установить программный пакет swirl
+4.  Запустить задание с помощью swirl::swirl()
+5.  Выбрать из меню курсов 1. R Programming: The basics of programming in R
+6.  Запустить подкурсы и выполнить: базовые структурные блоки (Basic Building Blocks) рабочие пространства и файлы (Workspace and Files) последовательности чисел (Sequences of Numbers) векторы (Vectors) пропущенные значения (Missing Values)
+7.  Составить отчет и выложить его и исходный qmd / rmd файл в свой репозиторий
+
+## Шаги:
+
+1.  Установить интерпретатор R
+
+```         
+peter\@MacBook \~ % R
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root" Copyright (C) 2025 The R Foundation for Statistical Computing Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY. You are welcome to redistribute it under certain conditions. Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors. Type 'contributors()' for more information and 'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or 'help.start()' for an HTML browser interface to help. Type 'q()' to quit R.
+```
+
+2.  Установить Rstudio IDE
+
+    ![](images/clipboard-1774520704.png){width="256"}
+
+3.  Установить программный пакет swirl
+
+```         
+> install.packages("swirl")
+trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-arm64/contrib/4.5/swirl_2.4.5.tgz'
+Content type 'application/x-gzip' length 354115 bytes (345 KB)
+==================================================
+downloaded 345 KB
+
+
+The downloaded binary packages are in
+    /var/folders/1v/74qyhl9105zdzycw131d620r0000gn/T//RtmpeMVzrJ/downloaded_packages
+```
+
+4.  Запустить задание с помощью swirl::swirl()
+```
+> swirl::swirl()
+
+| Welcome to swirl! Please sign in. If you've been here before, use the same name as you did then. If you are
+| new, call yourself something unique.
+
+What shall I call you? PeterPlyuvkov
+
+| Thanks, PeterPlyuvkov. Let's cover a couple of quick housekeeping items before we begin our first lesson.
+| First of all, you should know that when you see '...', that means you should press Enter when you are done
+| reading and ready to continue.
+
+...  <-- That's your cue to press Enter to continue
+
+| Also, when you see 'ANSWER:', the R prompt (>), or when you are asked to select from a list, that means it's
+| your turn to enter a response, then press Enter to continue.
+
+Select 1, 2, or 3 and press Enter 
+
+1: Continue.
+2: Proceed.
+3: Let's get going!
+```
+
+## Оценка результата
+
+В результате лабораторной работы мы определили IP-адрес злоумышленика.
+
+## Вывод
+
+Таким образом, мы научились анализировать предоставляемый файл и находить ip-адрес злоумышленника.
