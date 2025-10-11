@@ -1,6 +1,65 @@
 # Введение в R
 p.pluvkov@yandex.ru
 
+``` r
+sessionInfo
+```
+
+    function (package = NULL) 
+    {
+        z <- list()
+        z$R.version <- R.Version()
+        z$platform <- z$R.version$platform
+        if (nzchar(.Platform$r_arch)) 
+            z$platform <- paste(z$platform, .Platform$r_arch, sep = "/")
+        sp <- 8 * .Machine$sizeof.pointer
+        if (sp != 64) 
+            z$platform <- paste0(z$platform, " (", sp, "-bit)")
+        z$locale <- Sys.getlocale()
+        z$tzone <- Sys.timezone()
+        z$tzcode_type <- .Call(C_tzcode_type)
+        z$running <- osVersion
+        z$RNGkind <- RNGkind()
+        if (is.null(package)) {
+            package <- grep("^package:", search(), value = TRUE)
+            keep <- vapply(package, function(x) x == "package:base" || 
+                !is.null(attr(as.environment(x), "path")), NA)
+            package <- .rmpkg(package[keep])
+        }
+        pkgDesc <- lapply(package, packageDescription, encoding = NA)
+        if (length(package) == 0) 
+            stop("no valid packages were specified")
+        basePkgs <- sapply(pkgDesc, function(x) !is.null(x$Priority) && 
+            x$Priority == "base")
+        z$basePkgs <- package[basePkgs]
+        if (any(!basePkgs)) {
+            z$otherPkgs <- pkgDesc[!basePkgs]
+            names(z$otherPkgs) <- package[!basePkgs]
+        }
+        loadedOnly <- loadedNamespaces()
+        loadedOnly <- loadedOnly[!(loadedOnly %in% package)]
+        if (length(loadedOnly)) {
+            names(loadedOnly) <- loadedOnly
+            pkgDesc <- c(pkgDesc, lapply(loadedOnly, packageDescription, 
+                encoding = NA))
+            z$loadedOnly <- pkgDesc[loadedOnly]
+        }
+        z$matprod <- as.character(options("matprod"))
+        es <- extSoftVersion()
+        z$BLAS <- es[["BLAS"]]
+        z$LAPACK <- La_library()
+        z$LA_version <- La_version()
+        l10n <- l10n_info()
+        if (!is.null(l10n[["system.codepage"]])) 
+            z$system.codepage <- l10n[["system.codepage"]]
+        if (!is.null(l10n[["codepage"]])) 
+            z$codepage <- l10n[["codepage"]]
+        class(z) <- "sessionInfo"
+        z
+    }
+    <bytecode: 0x134b0a920>
+    <environment: namespace:utils>
+
 ## Цель работы
 
 1.  Развить практические навыки использования языка программирования R
@@ -679,7 +738,52 @@ p.pluvkov@yandex.ru
     | Create a directory in the current working directory called "testdir2" and a subdirectory for it called "testdir3", all in one command by using dir.create()
     | and file.path().
 
-    > 
+    > dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
+
+    | That's the answer I was looking for.
+
+      |====================================================================================================================================                   |  87%
+    | Go back to your original working directory using setwd(). (Recall that we created the variable old.dir with the full path for the orginal working directory at
+    | the start of these questions.)
+
+    > setwd(old.dir)
+
+    | Excellent work!
+
+      |========================================================================================================================================               |  90%
+    | It is often helpful to save the settings that you had before you began an analysis and then go back to them at the end. This trick is often used within
+    | functions; you save, say, the par() settings that you started with, mess around a bunch, and then set them back to the original values at the end. This isn't
+    | the same as what we have done here, but it seems similar enough to mention.
+
+    ...
+
+      |===========================================================================================================================================            |  92%
+    | After you finish this lesson delete the 'testdir' directory that you just left (and everything in it)
+
+    ...
+
+      |===============================================================================================================================================        |  95%
+    | Take nothing but results. Leave nothing but assumptions. That sounds like 'Take nothing but pictures. Leave nothing but footprints.' But it makes no sense!
+    | Surely our readers can come up with a better motto . . .
+
+    ...
+
+      |===================================================================================================================================================    |  97%
+    | In this lesson, you learned how to examine your R workspace and work with the file system of your machine from within R. Thanks for playing!
+
+    ...
+
+      |=======================================================================================================================================================| 100%
+    | Would you like to receive credit for completing this course on Coursera.org?
+
+    1: Yes
+    2: No
+
+    Selection: 2
+
+    | Excellent job!
+
+    | You've reached the end of this lesson! Returning to the main menu...
 
 ## Оценка результата
 

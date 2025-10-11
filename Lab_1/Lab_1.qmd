@@ -1,3 +1,6 @@
+```{r}
+sessionInfo
+```
 ---
 title: "Введение в R"
 author: "p.pluvkov@yandex.ru"
@@ -431,7 +434,7 @@ Selection: 1
 
 6.2 Выполениене блока Workspace and Files:
 
-```
+```         
 | Please choose a lesson, or type 0 to return to course menu.
 
  1: Basic Building Blocks      2: Workspace and Files        3: Sequences of Numbers       4: Vectors                    5: Missing Values          
@@ -678,7 +681,54 @@ mytest.R    0 FALSE  644 2025-09-27 13:53:23 2025-09-27 13:53:23 2025-09-27 13:5
 | Create a directory in the current working directory called "testdir2" and a subdirectory for it called "testdir3", all in one command by using dir.create()
 | and file.path().
 
-> 
+> dir.create(file.path('testdir2', 'testdir3'), recursive = TRUE)
+
+| That's the answer I was looking for.
+
+  |====================================================================================================================================                   |  87%
+| Go back to your original working directory using setwd(). (Recall that we created the variable old.dir with the full path for the orginal working directory at
+| the start of these questions.)
+
+> setwd(old.dir)
+
+| Excellent work!
+
+  |========================================================================================================================================               |  90%
+| It is often helpful to save the settings that you had before you began an analysis and then go back to them at the end. This trick is often used within
+| functions; you save, say, the par() settings that you started with, mess around a bunch, and then set them back to the original values at the end. This isn't
+| the same as what we have done here, but it seems similar enough to mention.
+
+...
+
+  |===========================================================================================================================================            |  92%
+| After you finish this lesson delete the 'testdir' directory that you just left (and everything in it)
+
+...
+
+  |===============================================================================================================================================        |  95%
+| Take nothing but results. Leave nothing but assumptions. That sounds like 'Take nothing but pictures. Leave nothing but footprints.' But it makes no sense!
+| Surely our readers can come up with a better motto . . .
+
+...
+
+  |===================================================================================================================================================    |  97%
+| In this lesson, you learned how to examine your R workspace and work with the file system of your machine from within R. Thanks for playing!
+
+...
+
+  |=======================================================================================================================================================| 100%
+| Would you like to receive credit for completing this course on Coursera.org?
+
+1: Yes
+2: No
+
+Selection: 2
+
+| Excellent job!
+
+| You've reached the end of this lesson! Returning to the main menu...
+
+
 ```
 
 ## Оценка результата
