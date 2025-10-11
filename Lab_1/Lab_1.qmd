@@ -1,6 +1,3 @@
-```{r}
-sessionInfo
-```
 ---
 title: "Введение в R"
 author: "p.pluvkov@yandex.ru"
@@ -20,6 +17,11 @@ format:
 1.  Програмное обеспеченье MacOS
 2.  RStudio
 3.  Интерпретатор языка R 4.5.1
+
+```{r}
+#| label: sessionInfo
+sessionInfo()
+```
 
 ## План
 
@@ -728,13 +730,11 @@ Selection: 2
 
 | You've reached the end of this lesson! Returning to the main menu...
 
-
 ```
 
 6.3 Выполениене блока Sequences of Numbers:
 
-
-```
+```         
 | Please choose a lesson, or type 0 to return to course menu.
 
  1: Basic Building Blocks      2: Workspace and Files        3: Sequences of Numbers       4: Vectors                    5: Missing Values          

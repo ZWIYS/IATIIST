@@ -1,65 +1,6 @@
 # Введение в R
 p.pluvkov@yandex.ru
 
-``` r
-sessionInfo
-```
-
-    function (package = NULL) 
-    {
-        z <- list()
-        z$R.version <- R.Version()
-        z$platform <- z$R.version$platform
-        if (nzchar(.Platform$r_arch)) 
-            z$platform <- paste(z$platform, .Platform$r_arch, sep = "/")
-        sp <- 8 * .Machine$sizeof.pointer
-        if (sp != 64) 
-            z$platform <- paste0(z$platform, " (", sp, "-bit)")
-        z$locale <- Sys.getlocale()
-        z$tzone <- Sys.timezone()
-        z$tzcode_type <- .Call(C_tzcode_type)
-        z$running <- osVersion
-        z$RNGkind <- RNGkind()
-        if (is.null(package)) {
-            package <- grep("^package:", search(), value = TRUE)
-            keep <- vapply(package, function(x) x == "package:base" || 
-                !is.null(attr(as.environment(x), "path")), NA)
-            package <- .rmpkg(package[keep])
-        }
-        pkgDesc <- lapply(package, packageDescription, encoding = NA)
-        if (length(package) == 0) 
-            stop("no valid packages were specified")
-        basePkgs <- sapply(pkgDesc, function(x) !is.null(x$Priority) && 
-            x$Priority == "base")
-        z$basePkgs <- package[basePkgs]
-        if (any(!basePkgs)) {
-            z$otherPkgs <- pkgDesc[!basePkgs]
-            names(z$otherPkgs) <- package[!basePkgs]
-        }
-        loadedOnly <- loadedNamespaces()
-        loadedOnly <- loadedOnly[!(loadedOnly %in% package)]
-        if (length(loadedOnly)) {
-            names(loadedOnly) <- loadedOnly
-            pkgDesc <- c(pkgDesc, lapply(loadedOnly, packageDescription, 
-                encoding = NA))
-            z$loadedOnly <- pkgDesc[loadedOnly]
-        }
-        z$matprod <- as.character(options("matprod"))
-        es <- extSoftVersion()
-        z$BLAS <- es[["BLAS"]]
-        z$LAPACK <- La_library()
-        z$LA_version <- La_version()
-        l10n <- l10n_info()
-        if (!is.null(l10n[["system.codepage"]])) 
-            z$system.codepage <- l10n[["system.codepage"]]
-        if (!is.null(l10n[["codepage"]])) 
-            z$codepage <- l10n[["codepage"]]
-        class(z) <- "sessionInfo"
-        z
-    }
-    <bytecode: 0x12be72070>
-    <environment: namespace:utils>
-
 ## Цель работы
 
 1.  Развить практические навыки использования языка программирования R
@@ -74,6 +15,33 @@ sessionInfo
 1.  Програмное обеспеченье MacOS
 2.  RStudio
 3.  Интерпретатор языка R 4.5.1
+
+``` r
+sessionInfo()
+```
+
+    R version 4.5.1 (2025-06-13)
+    Platform: aarch64-apple-darwin20
+    Running under: macOS Tahoe 26.1
+
+    Matrix products: default
+    BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
+    LAPACK: /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.1
+
+    locale:
+    [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+    time zone: Europe/Moscow
+    tzcode source: internal
+
+    attached base packages:
+    [1] stats     graphics  grDevices utils     datasets  methods   base     
+
+    loaded via a namespace (and not attached):
+     [1] compiler_4.5.1    fastmap_1.2.0     cli_3.6.5         tools_4.5.1      
+     [5] htmltools_0.5.8.1 yaml_2.3.10       rmarkdown_2.29    knitr_1.50       
+     [9] jsonlite_2.0.0    xfun_0.53         digest_0.6.37     rlang_1.1.6      
+    [13] evaluate_1.0.5   
 
 ## План
 
