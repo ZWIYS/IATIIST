@@ -249,3 +249,49 @@ starwars %>% group_by(species) %>%  summarise(avg_birth_year = mean(birth_year, 
     13 Wookiee                 200  
     14 Yoda's species          896  
     15 Zabrak                   54  
+
+#### 2.10 Найти самый распространенный цвет глаз персонажей вселенной Звездных воин.
+
+``` r
+starwars %>% count(eye_color, sort = TRUE) %>% slice(1)
+```
+
+    # A tibble: 1 × 2
+      eye_color     n
+      <chr>     <int>
+    1 brown        21
+
+#### 2.11 Подсчитать среднюю длину имени в каждой расе вселенной Звездных войн.
+
+``` r
+starwars %>% filter(!is.na(species)) %>% mutate(name_length = nchar(name)) %>% group_by(species) %>% summarise(avg_name_length = mean(name_length, na.rm = TRUE))
+```
+
+    # A tibble: 37 × 2
+       species   avg_name_length
+       <chr>               <dbl>
+     1 Aleena              12   
+     2 Besalisk            15   
+     3 Cerean              12   
+     4 Chagrian            10   
+     5 Clawdite            10   
+     6 Droid                4.83
+     7 Dug                  7   
+     8 Ewok                21   
+     9 Geonosian           17   
+    10 Gungan              11.7 
+    # ℹ 27 more rows
+
+## Оценка результата
+
+В ходе решения лабораторной работы были развиты пратические новыки в
+языке программирования R для обработки данных, закрепленны знания
+базовых типов данных R и развиты новые навыки в использовании функций
+паркте dplyr
+
+## Вывод
+
+В ходе решения лабораторной работы были развиты пратические новыки в
+языке программирования R для обработки данных, закрепленны знания
+базовых типов данных R и развиты новые навыки в использовании функций
+паркте dplyr
