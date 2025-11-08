@@ -126,3 +126,25 @@ starwars %>% glimpse()
     $ films      <list> <"A New Hope", "The Empire Strikes Back", "Return of the J…
     $ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imp…
     $ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1",…
+
+#### 2.4 Сколько уникальных рас персонажей (species) представлено в данных?
+
+``` r
+unique(starwars$species) -> unique_species
+length(unique_species)
+```
+
+    [1] 38
+
+#### 2.5 Найти самого высокого персонажа.
+
+``` r
+starwars %>% filter(height == max(height, na.rm = TRUE))
+```
+
+    # A tibble: 1 × 14
+      name      height  mass hair_color skin_color eye_color birth_year sex   gender
+      <chr>      <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> <chr> 
+    1 Yarael P…    264    NA none       white      yellow            NA male  mascu…
+    # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
+    #   vehicles <list>, starships <list>
