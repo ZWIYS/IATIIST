@@ -86,3 +86,22 @@ starwars %>% filter(height == max(height, na.rm = TRUE))
 starwars %>% filter(height < 170)
 
 ```
+
+#### 2.7 Подсчитать ИМТ (индекс массы тела) для всех персонажей
+
+```{r}
+#| label: q7
+
+starwars %>% mutate(mass / (height/100)^2)
+```
+
+
+
+
+
+
+
+
+
+
+s
