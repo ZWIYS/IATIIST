@@ -1,6 +1,8 @@
 p.pluvkov@yandex.ru
 
-#Основы обработки данных с помощью R и Dplyr p.pluvkov@yandex.ru
+# Основы обработки данных с помощью R и Dplyr
+
+p.pluvkov@yandex.ru
 
 ``` r
 sessionInfo()

@@ -5,7 +5,7 @@ format:
     output-file: README.md
 ---
 
-#Основы обработки данных с помощью R и Dplyr
+# Основы обработки данных с помощью R и Dplyr
 p.pluvkov@yandex.ru
 ```{r}
 #| label: sessionInfo
