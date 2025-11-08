@@ -1,6 +1,11 @@
 # Введение в R
 p.pluvkov@yandex.ru
 
+## \# Практическая работа 1
+
+title: “Введение в R” author: “p.pluvkov@yandex.ru” format: md:
+output-file: README.md —
+
 ## Цель работы
 
 1.  Развить практические навыки использования языка программирования R
@@ -22,7 +27,7 @@ sessionInfo()
 
     R version 4.5.1 (2025-06-13)
     Platform: aarch64-apple-darwin20
-    Running under: macOS Tahoe 26.1
+    Running under: macOS Tahoe 26.2
 
     Matrix products: default
     BLAS:   /Library/Frameworks/R.framework/Versions/4.5-arm64/Resources/lib/libRblas.0.dylib 
