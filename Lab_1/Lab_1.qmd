@@ -1,5 +1,4 @@
-# Практическая работа 1
----
+ ---
 title: "Введение в R"
 author: "p.pluvkov@yandex.ru"
 format: 
@@ -36,7 +35,7 @@ sessionInfo()
 
 ## Шаги:
 
-1.  Установить интерпретатор R
+### 1.  Установить интерпретатор R
 
 ```         
 peter\@MacBook \~ % R
@@ -50,11 +49,11 @@ R is a collaborative project with many contributors. Type 'contributors()' for m
 Type 'demo()' for some demos, 'help()' for on-line help, or 'help.start()' for an HTML browser interface to help. Type 'q()' to quit R.
 ```
 
-2.  Установить Rstudio IDE
+### 2.  Установить Rstudio IDE
 
     ![](images/clipboard-1774520704.png){width="256"}
 
-3.  Установить программный пакет swirl
+### 3.  Установить программный пакет swirl
 
 ```         
 > install.packages("swirl")
@@ -68,7 +67,7 @@ The downloaded binary packages are in
     /var/folders/1v/74qyhl9105zdzycw131d620r0000gn/T//RtmpeMVzrJ/downloaded_packages
 ```
 
-4.  Запустить задание с помощью swirl::swirl()
+### 4.  Запустить задание с помощью swirl::swirl()
 
 ```         
 > swirl::swirl()
@@ -94,7 +93,7 @@ Select 1, 2, or 3 and press Enter
 3: Let's get going!
 ```
 
-5.  Выбрать из меню курсов 1. R Programming: The basics of programming in R
+### 5.  Выбрать из меню курсов 1. R Programming: The basics of programming in R
 
 ```         
 | To begin, you must install a course. I can install a course for you from the internet, or I can send you to
@@ -132,9 +131,9 @@ Selection: 1
 Selection: 1
 ```
 
-6.  Запустить подкурсы и выполнить базовые структурные блоки
+### 6.  Запустить подкурсы и выполнить базовые структурные блоки
 
-6.1 Выполениене блока Basic Building Blocks:
+#### 6.1 Выполениене блока Basic Building Blocks:
 
 ```         
 | In this lesson, we will explore some basic building blocks of the R programming language.
@@ -435,7 +434,7 @@ Selection: 1
 | You've reached the end of this lesson! Returning to the main menu...
 ```
 
-6.2 Выполениене блока Workspace and Files:
+#### 6.2 Выполениене блока Workspace and Files:
 
 ```         
 | Please choose a lesson, or type 0 to return to course menu.
@@ -730,10 +729,9 @@ Selection: 2
 | Excellent job!
 
 | You've reached the end of this lesson! Returning to the main menu...
-
 ```
 
-6.3 Выполениене блока Sequences of Numbers:
+#### 6.3 Выполениене блока Sequences of Numbers:
 
 ```         
 | Please choose a lesson, or type 0 to return to course menu.
@@ -926,8 +924,9 @@ Selection: 2
 | You've reached the end of this lesson! Returning to the main menu...
 ```
 
-6.4 Выполениене блока Vectors:
-```
+#### 6.4 Выполениене блока Vectors:
+
+```         
 | Please choose a lesson, or type 0 to return to course menu.
 
  1: Basic Building Blocks      2: Workspace and Files        3: Sequences of Numbers       4: Vectors                    5: Missing Values          
@@ -1214,12 +1213,11 @@ Selection: 2
 | Excellent job!
 
 | You've reached the end of this lesson! Returning to the main menu...
-
 ```
 
-6.5 Выполениене блока Missing values:
+#### 6.5 Выполениене блока Missing values:
 
-```
+```         
 | Please choose a lesson, or type 0 to return to course menu.
 
  1: Basic Building Blocks      2: Workspace and Files        3: Sequences of Numbers       4: Vectors                    5: Missing Values          
@@ -1397,7 +1395,9 @@ Selection: 1
 ```
 
 ## Оценка результата
+
 В ходе выполнения практической работы были получены навыки работы с языком программирования R и изучены базовые понятия.
 
 ## Вывод
+
 В ходе выполнения практической работы были получены навыки работы с языком программирования R и изучены базовые понятия.
