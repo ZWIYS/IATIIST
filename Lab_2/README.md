@@ -46,9 +46,9 @@ sessionInfo()
 Проанализировать встроенный в пакет dplyr набор данных starwars с
 помощью языка R и ответить на вопросы 1-12
 
-### Шаги:
+## Шаги:
 
-#### 1. Загрузка библиотеки и просмотр набора данных
+### 1. Загрузка библиотеки и просмотр набора данных
 
 ``` r
 library(dplyr)
@@ -85,3 +85,14 @@ starwars
     # ℹ 77 more rows
     # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>
+
+### 2. Овтеты на вопросы:
+
+####2.1 Сколько строк в датафрейме?
+
+``` r
+#|label: q1
+starwars %>% nrow()
+```
+
+    [1] 87
