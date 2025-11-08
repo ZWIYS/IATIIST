@@ -1,0 +1,7 @@
+---
+title: "Основы обработки данных с помощью R и Dplyr"
+author: "p.pluvkov@yandex.ru"
+format: 
+  md:
+    output-file: README.md
+---
