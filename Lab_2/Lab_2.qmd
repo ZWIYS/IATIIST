@@ -1,11 +1,12 @@
 ---
-title: "Основы обработки данных с помощью R и Dplyr"
 author: "p.pluvkov@yandex.ru"
 format: 
   md:
     output-file: README.md
 ---
 
+#Основы обработки данных с помощью R и Dplyr
+p.pluvkov@yandex.ru
 ```{r}
 #| label: sessionInfo
 sessionInfo()
@@ -107,8 +108,25 @@ VIT
 ```
 
 
+#### 2.9 Найти средний возраст персонажей каждой расы вселенной Звездных войн.
+
+```{r}
+#| label: q9
+starwars %>% group_by(species) %>%  summarise(avg_birth_year = mean(birth_year, na.rm = TRUE)) %>% filter(!is.na(avg_birth_year))
+```
 
 
 
 
-s
+
+
+
+
+
+
+
+
+
+
+
+

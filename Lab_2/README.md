@@ -1,5 +1,6 @@
-# Основы обработки данных с помощью R и Dplyr
 p.pluvkov@yandex.ru
+
+#Основы обработки данных с помощью R и Dplyr p.pluvkov@yandex.ru
 
 ``` r
 sessionInfo()
@@ -222,4 +223,27 @@ VIT
     # ℹ 6 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>, vit <dbl>
 
-s
+#### 2.9 Найти средний возраст персонажей каждой расы вселенной Звездных войн.
+
+``` r
+starwars %>% group_by(species) %>%  summarise(avg_birth_year = mean(birth_year, na.rm = TRUE)) %>% filter(!is.na(avg_birth_year))
+```
+
+    # A tibble: 15 × 2
+       species        avg_birth_year
+       <chr>                   <dbl>
+     1 Cerean                   92  
+     2 Droid                    53.3
+     3 Ewok                      8  
+     4 Gungan                   52  
+     5 Human                    53.7
+     6 Hutt                    600  
+     7 Kel Dor                  22  
+     8 Mirialan                 49  
+     9 Mon Calamari             41  
+    10 Rodian                   44  
+    11 Trandoshan               53  
+    12 Twi'lek                  48  
+    13 Wookiee                 200  
+    14 Yoda's species          896  
+    15 Zabrak                   54  
