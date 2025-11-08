@@ -1,10 +1,11 @@
 ---
-title: "Введение в R"
 author: "p.pluvkov@yandex.ru"
 format: 
   md:
     output-file: README.md
 ---
+#Введение в R
+p.pluvkov@yandex.ru
 
 ## Цель работы
 
