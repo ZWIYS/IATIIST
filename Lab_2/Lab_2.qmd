@@ -92,12 +92,19 @@ starwars %>% filter(height < 170)
 ```{r}
 #| label: q7
 
-starwars %>% mutate(mass / (height/100)^2)
+IMT <- starwars %>% mutate(imt = mass / (height/100)^2)
+IMT
 ```
 
 
+#### 2.8 Найти 10 самых “вытянутых” персонажей
 
+```{r}
+#| label: q8
+VIT <- starwars %>% mutate(vit = mass / height)
+VIT
 
+```
 
 
 
