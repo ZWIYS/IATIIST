@@ -99,7 +99,6 @@ starwars %>% nrow()
 #### 2.2 Сколько столбцов в датафрейме?
 
 ``` r
-#|label: q2
 starwars %>% ncol()
 ```
 
@@ -108,7 +107,6 @@ starwars %>% ncol()
 #### 2.3 Как просмотреть примерный вид датафрейма?
 
 ``` r
-#|label: q3
 starwars %>% glimpse()
 ```
 
