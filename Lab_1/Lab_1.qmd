@@ -1,10 +1,12 @@
- ---
-title: "Введение в R"
+---
+title: "Основы R"
 author: "p.pluvkov@yandex.ru"
 format: 
   md:
     output-file: README.md
 ---
+
+
 
 ## Цель работы
 
@@ -35,7 +37,7 @@ sessionInfo()
 
 ## Шаги:
 
-### 1.  Установить интерпретатор R
+### 1. Установить интерпретатор R
 
 ```         
 peter\@MacBook \~ % R
@@ -49,11 +51,13 @@ R is a collaborative project with many contributors. Type 'contributors()' for m
 Type 'demo()' for some demos, 'help()' for on-line help, or 'help.start()' for an HTML browser interface to help. Type 'q()' to quit R.
 ```
 
-### 2.  Установить Rstudio IDE
+### 2. Установить Rstudio IDE
 
-    ![](images/clipboard-1774520704.png){width="256"}
+```         
+![](images/clipboard-1774520704.png){width="256"}
+```
 
-### 3.  Установить программный пакет swirl
+### 3. Установить программный пакет swirl
 
 ```         
 > install.packages("swirl")
@@ -67,7 +71,7 @@ The downloaded binary packages are in
     /var/folders/1v/74qyhl9105zdzycw131d620r0000gn/T//RtmpeMVzrJ/downloaded_packages
 ```
 
-### 4.  Запустить задание с помощью swirl::swirl()
+### 4. Запустить задание с помощью swirl::swirl()
 
 ```         
 > swirl::swirl()
@@ -93,7 +97,7 @@ Select 1, 2, or 3 and press Enter
 3: Let's get going!
 ```
 
-### 5.  Выбрать из меню курсов 1. R Programming: The basics of programming in R
+### 5. Выбрать из меню курсов 1. R Programming: The basics of programming in R
 
 ```         
 | To begin, you must install a course. I can install a course for you from the internet, or I can send you to
@@ -131,7 +135,7 @@ Selection: 1
 Selection: 1
 ```
 
-### 6.  Запустить подкурсы и выполнить базовые структурные блоки
+### 6. Запустить подкурсы и выполнить базовые структурные блоки
 
 #### 6.1 Выполениене блока Basic Building Blocks:
 

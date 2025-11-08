@@ -1,10 +1,5 @@
-# Введение в R
+# Основы R
 p.pluvkov@yandex.ru
-
-## \# Практическая работа 1
-
-title: “Введение в R” author: “p.pluvkov@yandex.ru” format: md:
-output-file: README.md —
 
 ## Цель работы
 
@@ -65,9 +60,7 @@ sessionInfo()
 
 ## Шаги:
 
-1.  Установить интерпретатор R
-
-<!-- -->
+### 1. Установить интерпретатор R
 
     peter\@MacBook \~ % R
 
@@ -79,13 +72,11 @@ sessionInfo()
 
     Type 'demo()' for some demos, 'help()' for on-line help, or 'help.start()' for an HTML browser interface to help. Type 'q()' to quit R.
 
-1.  Установить Rstudio IDE
+### 2. Установить Rstudio IDE
 
-    <img src="images/clipboard-1774520704.png" width="256" />
+    ![](images/clipboard-1774520704.png){width="256"}
 
-2.  Установить программный пакет swirl
-
-<!-- -->
+### 3. Установить программный пакет swirl
 
     > install.packages("swirl")
     trying URL 'https://cran.rstudio.com/bin/macosx/big-sur-arm64/contrib/4.5/swirl_2.4.5.tgz'
@@ -97,9 +88,7 @@ sessionInfo()
     The downloaded binary packages are in
         /var/folders/1v/74qyhl9105zdzycw131d620r0000gn/T//RtmpeMVzrJ/downloaded_packages
 
-1.  Запустить задание с помощью swirl::swirl()
-
-<!-- -->
+### 4. Запустить задание с помощью swirl::swirl()
 
     > swirl::swirl()
 
@@ -123,10 +112,7 @@ sessionInfo()
     2: Proceed.
     3: Let's get going!
 
-1.  Выбрать из меню курсов 1. R Programming: The basics of programming
-    in R
-
-<!-- -->
+### 5. Выбрать из меню курсов 1. R Programming: The basics of programming in R
 
     | To begin, you must install a course. I can install a course for you from the internet, or I can send you to
     | a web page (https://github.com/swirldev/swirl_courses) which will provide course options and directions for
@@ -162,9 +148,9 @@ sessionInfo()
 
     Selection: 1
 
-1.  Запустить подкурсы и выполнить базовые структурные блоки
+### 6. Запустить подкурсы и выполнить базовые структурные блоки
 
-6.1 Выполениене блока Basic Building Blocks:
+#### 6.1 Выполениене блока Basic Building Blocks:
 
     | In this lesson, we will explore some basic building blocks of the R programming language.
 
@@ -463,7 +449,7 @@ sessionInfo()
 
     | You've reached the end of this lesson! Returning to the main menu...
 
-6.2 Выполениене блока Workspace and Files:
+#### 6.2 Выполениене блока Workspace and Files:
 
     | Please choose a lesson, or type 0 to return to course menu.
 
@@ -758,7 +744,7 @@ sessionInfo()
 
     | You've reached the end of this lesson! Returning to the main menu...
 
-6.3 Выполениене блока Sequences of Numbers:
+#### 6.3 Выполениене блока Sequences of Numbers:
 
     | Please choose a lesson, or type 0 to return to course menu.
 
@@ -949,7 +935,7 @@ sessionInfo()
 
     | You've reached the end of this lesson! Returning to the main menu...
 
-6.4 Выполениене блока Vectors:
+#### 6.4 Выполениене блока Vectors:
 
     | Please choose a lesson, or type 0 to return to course menu.
 
@@ -1238,7 +1224,7 @@ sessionInfo()
 
     | You've reached the end of this lesson! Returning to the main menu...
 
-6.5 Выполениене блока Missing values:
+#### 6.5 Выполениене блока Missing values:
 
     | Please choose a lesson, or type 0 to return to course menu.
 
