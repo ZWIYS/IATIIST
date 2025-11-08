@@ -1,6 +1,8 @@
 p.pluvkov@yandex.ru
 
-#Введение в R p.pluvkov@yandex.ru
+# Введение в R
+
+p.pluvkov@yandex.ru
 
 ## Цель работы
 
