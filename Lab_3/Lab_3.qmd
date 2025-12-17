@@ -1,13 +1,103 @@
 ---
-author: "p.pluvkov@yandex.ru"
+title: Основы обработки данных с помощью R и Dplyr
+author: p.pluvkov@yandex.ru
 format: 
   md:
     output-file: README.md
 ---
-# Основы обработки данных с помощью R и Dplyr
-p.pluvkov@yandex.ru
+
+## Цель работы
+
+1.  Развить практические навыки использования языка программирования R для обработки данных
+2.  Закрепить знания базовых типов данных языка R
+3.  Развить практические навыки использования функций обработки данных пакета `dplyr` – функции `select(), filter(), mutate(), arrange(), group_by()`
+
+## Исходные данные
+
+1. Програмное обеспеченье MacOS
+2. RStudio
+3. Интерпретатор языка R 4.5.1
+
+## Общий план выполнения работы
+
+1.  Проанализировать встроенные в пакет nycflights13 наборы данных с помощью языка R
+2.  Выполнить аталитические задачи с помощью языка R
+
+## Шаги
+
+```{r setup, include=FALSE}
+# Установка зеркала CRAN
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+```
+
+### Шаг 0. Установка nycflights13
+```{R}
+library(dplyr)
+```
+
+```{R}
+#| label: install
+#| 
+install.packages("nycflights13")
+library(nycflights13)
+```
+
+### Шаг 1. Сколько встроенных в пакет nycflights13 датафреймов
+```{R}
+ls("package:nycflights13")
+nycflights13::airlines
+nycflights13::airports
+nycflights13::flights
+nycflights13::planes
+nycflights13::weather
+```
+
+### Шаг 2. Сколько строк в каждом датафрейме?
+```{R}
+airlines %>% nrow()
+airports %>% nrow()
+flights %>% nrow()
+planes %>% nrow()
+weather %>% nrow()
+```
+
+### Шаг 3. Сколько столбцов в каждом датафрейме?
+```{R}
+airlines %>% ncol()
+airports %>% ncol()
+flights %>% ncol()
+planes %>% ncol()
+weather %>% ncol()
+```
+
+### Шаг 4. Как посмотреть примерный вид датафрейма?
+
+```{R}
+airlines %>% glimpse()
+airports %>% glimpse()
+flights %>% glimpse()
+planes %>% glimpse()
+weather %>% glimpse()
+```
+
+### Шаг 5. Сколько компаний-перевозчиков (carrier) учитывают эти наборы данных (представлено в наборах данных)?
 
 ```{r}
-#| label: sessionInfo
-sessionInfo()
+length(airlines$carrier)
 ```
+
+### Шаг 6. Сколько рейсов принял аэропорт John F Kennedy Intl в мае?
+```{r}
+flights %>% filter(origin == "JFK" & month == 5) %>% nrow()
+```
+
+### Шаг .
+
+
+
+
+
+
+
+
+
