@@ -1,6 +1,6 @@
 # Введение в R
 
-[p.pluvkov\@yandex.ru](mailto:p.pluvkov@yandex.ru){.email}
+[p.pluvkov\@yandex.ru](mailto:p.pluvkov@yandex.ru)
 
 ## Цель работы
 
