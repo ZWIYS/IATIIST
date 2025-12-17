@@ -5,3 +5,237 @@ format:
   md:
     output-file: README.md
 ---
+
+## Цель работы
+1. Зекрепить практические навыки использования языка программирования R для обработки данных
+2. Закрепить знания основных функций обработки данных экосистемы tidyverse языка R
+3. Закрепить навыки исследования метаданных DNS трафика
+
+## Исходные данные
+1. Програмное обеспеченье MacOS
+2. RStudio
+3. Интерпретатор языка R 4.5.1
+4. Файл dns.log
+
+## План
+
+Используя программный пакет dplyr, проанализировать
+DNS лог с помощью языка программирования R.
+
+## Ход работы
+
+### Подготовка данных
+
+0. Импорт библиотек
+
+```{r setup, include=FALSE}
+#| label: q1
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+```
+
+```{R}
+#| label: q2
+library(dplyr)
+library(readr)
+```
+
+1. Добавьте пропущенные данные о структуре данных (назначении столбцов)
+
+```{r}
+#| label: q3
+col_names <- c( "ts", "uid", "id.orig_h", "id.orig_p", "id.resp_h", "id.resp_p", "proto", "trans_id", "query", "unknown1", "qclass", "qclass_name", "qtype", "qtype_name", "rcode", "rcode_name", "AA", "TC", "RD", "RA", "Z", "answers", "TTLs")
+```
+
+2. Преобразуйте данные в столбцах в нужный формат
+
+```{r}
+#| label: q4
+dns_log <- read_tsv( "dns.log", col_names = col_names, col_types = cols(.default = col_character(), ts = col_double(), id.orig_p = col_integer(), id.resp_p = col_integer(), trans_id = col_integer(), qclass_name = col_integer(), qtype_name = col_integer(), AA = col_logical(), TC = col_logical(), RD = col_logical(), RA = col_integer()), na = c("-", "(empty)", ""), comment = "#", show_col_types = FALSE)
+```
+
+3. Просмотрите общую структуру данных с помощью функции glimpse()
+
+```{r} 
+glimpse(dns_log)
+```
+
+## Анализ данных
+
+### Шаг 1. Cколько участников информационного обмена в сети Доброй Организации?
+
+```{r}
+#| label: q6
+uni_src_ip <- unique(dns_log$id.orig_h)
+uni_dst_ip <- unique(dns_log$id.resp_h)
+
+ips <- unique(c(uni_src_ip, uni_dst_ip))
+
+length(ips)
+glimpse(ips)
+``` 
+
+### Шаг 2. Какое соотношение участников обмена внутри сети и участников обращений к внешним ресурсам?
+```{r}
+int_res <- sum(grepl("^(10\\.|192\\.168\\.|172\\.(1[6-9]|2[0-9]|3[0-1])\\.)", ips))
+ext_res <- length(ips) - int_res
+int_res / ext_res
+```
+
+### Шаг 3. Найдите топ-10 участников сети, проявляющих наибольшую сетевую активность.
+```{r}
+dns_log %>% group_by(id.orig_h) %>% count(sort = TRUE) %>% head(10)
+```
+
+### Шаг 4. Найдите топ-10 доменов, к которым обращаются пользователи сети и соответственное количество обращений
+
+```{r}
+dns_log %>% group_by(query) %>% count(sort = TRUE) %>% head(10)
+```
+
+### Шаг 5. Опеределите базовые статистические характеристики (функция summary() ) интервала времени между последовательными обращениями к топ-10 доменам.
+
+```{R}
+time_analysis <- dns_log %>%
+  count(query, name = "total_requests") %>%
+  slice_max(total_requests, n = 10) %>%
+  inner_join(dns_log, by = "query") %>%
+  group_by(query) %>%
+  arrange(ts, .by_group = TRUE) %>%
+  summarise(
+    requests = n(),
+    intervals = list(diff(sort(ts))),
+    .groups = 'drop') %>% mutate(
+    min_int = sapply(intervals, min),
+    q1_int = sapply(intervals, quantile, 0.25),
+    median_int = sapply(intervals, median),
+    mean_int = sapply(intervals, mean),
+    q3_int = sapply(intervals, quantile, 0.75),
+    max_int = sapply(intervals, max),
+    sd_int = sapply(intervals, sd)
+  ) %>%
+  select(-intervals) %>%
+  arrange(median_int)
+
+time_analysis
+```
+
+### Шан 6. По периодическим запросам на один и тот же домен можно выявить скрытый DNS канал. Есть ли такие IP адреса в исследуемом датасете?
+
+```{R}
+periodic_ips <- dns_log %>%
+  semi_join(
+    count(., query) %>% slice_max(n, n = 10),
+    by = "query"
+  ) %>%
+  group_by(id.orig_h, query) %>%
+  filter(n() >= 5) %>%
+  arrange(ts) %>%
+  summarise(
+    request_count = n(),
+    time_intervals = list(diff(ts)),
+    mean_interval = mean(diff(ts)),
+    sd_interval = sd(diff(ts)),
+    cv = sd_interval / mean_interval,
+    min_interval = min(diff(ts)),
+    max_interval = max(diff(ts)),
+    range_ratio = max_interval / min_interval,
+    .groups = 'drop'
+  ) %>%
+  
+  filter(
+    cv < 0.5, request_count >= 10, range_ratio < 10) %>%
+  arrange(cv, request_count)
+
+periodic_ips
+```
+
+### Шаг 7.  Определите местоположение (страну, город) и организацию-провайдера для топ-10 доменов.
+```{R}
+# Определяем функцию get_geo_info_debug
+get_geo_info_debug <- function(ip) {
+  cat("  Запрашиваю IP:", ip, "... ")
+  
+  if(grepl(":", ip)) {
+    cat("IPv6 - пропускаю\n")
+    return(NULL)
+  }
+  
+  if(is.na(ip) || ip == "") {
+    cat("Пустой IP\n")
+    return(NULL)
+  }
+  
+  tryCatch({
+    response <- GET(paste0("http://ip-api.com/json/", ip), 
+                    timeout(5))
+    
+    cat("Статус:", status_code(response), "... ")
+    
+    if(status_code(response) == 200) {
+      info <- content(response, "parsed")
+      
+      if(info$status == "success") {
+        cat("Успех\n")
+        return(data.frame(
+          ip = ip,
+          country = info$country,
+          city = ifelse(!is.null(info$city), info$city, NA),
+          isp = ifelse(!is.null(info$isp), info$isp, NA),
+          org = ifelse(!is.null(info$org), info$org, NA),
+          stringsAsFactors = FALSE
+        ))
+      } else {
+        cat("Ошибка API:", info$message, "\n")
+      }
+    } else {
+      cat("HTTP ошибка\n")
+    }
+    
+  }, error = function(e) {
+    cat("Ошибка:", e$message, "\n")
+  })
+  
+  return(NULL)
+}
+
+top_domains <- dns_log %>%
+  count(query, sort = TRUE) %>%
+  head(10)
+
+top_domains
+
+```
+
+## Оценка результата
+1. Зекрепили практические навыки использования языка программирования R для обработки данных
+2. Закрепили знания основных функций обработки данных экосистемы tidyverse языка R
+3. Закрепили навыки исследования метаданных DNS трафика
+
+## Вывод
+В рамках работы, используя программный пакет dplyr, проанализировали DNS лог с помощью языка программирования R.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
