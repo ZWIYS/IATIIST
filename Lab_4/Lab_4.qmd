@@ -1,13 +1,7 @@
 ---
+title: Исследование метаданных DNS трафика
 author: "p.pluvkov@yandex.ru"
 format: 
   md:
     output-file: README.md
 ---
-# Исследование метаданных DNS трафика
-p.pluvkov@yandex.ru
-
-```{r}
-#| label: sessionInfo
-sessionInfo()
-```
