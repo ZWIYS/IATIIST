@@ -14,9 +14,9 @@ format:
 
 ## Исходные данные
 
-1. Програмное обеспеченье MacOS
-2. RStudio
-3. Интерпретатор языка R 4.5.1
+1.  Програмное обеспеченье MacOS
+2.  RStudio
+3.  Интерпретатор языка R 4.5.1
 
 ## Общий план выполнения работы
 
@@ -25,34 +25,24 @@ format:
 
 ## Шаги
 
-```{r setup, include=FALSE}
-# Установка зеркала CRAN
-options(repos = c(CRAN = "https://cloud.r-project.org/"))
-```
-
 ### Шаг 0. Установка nycflights13
+
 ```{R}
 library(dplyr)
 ```
 
 ```{R}
-#| label: install
-#| 
-install.packages("nycflights13")
 library(nycflights13)
 ```
 
 ### Шаг 1. Сколько встроенных в пакет nycflights13 датафреймов
+
 ```{R}
 ls("package:nycflights13")
-nycflights13::airlines
-nycflights13::airports
-nycflights13::flights
-nycflights13::planes
-nycflights13::weather
 ```
 
 ### Шаг 2. Сколько строк в каждом датафрейме?
+
 ```{R}
 airlines %>% nrow()
 airports %>% nrow()
@@ -62,6 +52,7 @@ weather %>% nrow()
 ```
 
 ### Шаг 3. Сколько столбцов в каждом датафрейме?
+
 ```{R}
 airlines %>% ncol()
 airports %>% ncol()
@@ -87,11 +78,57 @@ length(airlines$carrier)
 ```
 
 ### Шаг 6. Сколько рейсов принял аэропорт John F Kennedy Intl в мае?
+
 ```{r}
 flights %>% filter(origin == "JFK" & month == 5) %>% nrow()
 ```
 
-### Шаг .
+### Шаг 7.Какой самый северный аэропорт?
+```{r}
+airports %>% arrange(desc(lat)) %>% slice(1)
+```
+
+### Шаг 8.Какой самый высокогорный аэропорт?
+```{r}
+airports %>% arrange(desc(alt)) %>% slice(1)
+```
+
+### Шаг 9.Какие бортовые номера у самых старых самолетов?
+
+```{r}
+planes %>% arrange(year) %>% select(tailnum) %>% head(10)
+```
+
+### Шаг 10. Какая средняя температура воздуха была в сентябре в аэропорту John F Kennedy Intl (в градусах Цельсия).
+
+```{r}
+weather %>% filter(!is.na(temp) & month == 9 & origin == 'JFK') %>% summarize(temp_F = mean(temp), temp_C = (5/9) * (temp_F - 32))
+
+```
+
+### Шаг 11. Самолеты какой авиакомпании совершили больше всего вылетов в июне?
+```{r}
+flights %>% filter(month == 6) %>% count(carrier, sort = TRUE) %>% head(1) %>% left_join(airlines) %>% pull(name)
+```
+
+### Шаг 12. Самолеты какой авиакомпании задерживались чаще других в 2013 году?
+
+```{r}
+flights %>% filter(year == 2013 & !is.na(dep_delay) & !is.na(arr_delay)) %>% group_by(carrier) %>% summarise(coun = sum(arr_delay > 0)) %>% slice_max(coun, n = 1) %>% left_join(airlines) %>% pull(name)
+```
+
+## Оценка результата
+
+1. Развиты практические навыки использования языка программирования R для обработки данных
+2. Закреплены знания базовых типов данных языка R
+3. Развиты практические навыки использования функций обработки данных пакета `dplyr` – функции `select(), filter(), mutate(), arrange(), group_by()`
+
+## Вывод
+
+В ходе работы развиты практические навыки использования языка программирования R для обработки данных, закреплены знания базовых типов данных языка R, Развиты практические навыки использования функций обработки данных пакета `dplyr` – функции `select(), filter(), mutate(), arrange(), group_by()`
+
+
+
 
 
 
