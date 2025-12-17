@@ -1,11 +1,10 @@
 ---
-author: "p.pluvkov@yandex.ru"
-format: 
+title: "Введение в R"
+author: p.pluvkov@yandex.ru
+format:
   md:
     output-file: README.md
 ---
-# Введение в R
-p.pluvkov@yandex.ru
 
 ## Цель работы
 
@@ -52,9 +51,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or 'help.start()' for a
 
 ### 2. Установить Rstudio IDE
 
-```         
-![](images/clipboard-1774520704.png){width="256"}
-```
+![](images/Screenshot 2025-12-17 at 09.17.05.png)
 
 ### 3. Установить программный пакет swirl
 

@@ -1,7 +1,4 @@
-p.pluvkov@yandex.ru
-
 # Введение в R
-
 p.pluvkov@yandex.ru
 
 ## Цель работы
@@ -77,7 +74,7 @@ sessionInfo()
 
 ### 2. Установить Rstudio IDE
 
-    ![](images/clipboard-1774520704.png){width="256"}
+![](images/Screenshot%202025-12-17%20at%2009.17.05.png)
 
 ### 3. Установить программный пакет swirl
 
