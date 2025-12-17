@@ -1,7 +1,4 @@
-p.pluvkov@yandex.ru
-
 # Основы обработки данных с помощью R и Dplyr
-
 p.pluvkov@yandex.ru
 
 ``` r
@@ -38,13 +35,13 @@ sessionInfo()
 2.  Закрепить знания базовых типов данных языка R
 3.  Развить практические навыки использования функций обработки данных
     пакета dplyr – функции select(), filter(), mutate(), arrange(),
-    group\_ by()
+    group_by()
 
 ## Исходные данные
 
--   Програмное обеспеченье MacOS
--   RStudio
--   Интерпретатор языка R 4.5.1
+1.  Програмное обеспеченье MacOS
+2.  RStudio
+3.  Интерпретатор языка R 4.5.1
 
 ## План:
 
@@ -91,9 +88,7 @@ starwars
     # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>
 
-### 2. Овтеты на вопросы:
-
-#### 2.1 Сколько строк в датафрейме?
+### 2. Сколько строк в датафрейме?
 
 ``` r
 starwars %>% nrow()
@@ -101,7 +96,7 @@ starwars %>% nrow()
 
     [1] 87
 
-#### 2.2 Сколько столбцов в датафрейме?
+### 3. Сколько столбцов в датафрейме?
 
 ``` r
 starwars %>% ncol()
@@ -109,7 +104,7 @@ starwars %>% ncol()
 
     [1] 14
 
-#### 2.3 Как просмотреть примерный вид датафрейма?
+### 4. Как просмотреть примерный вид датафрейма?
 
 ``` r
 starwars %>% glimpse()
@@ -132,7 +127,7 @@ starwars %>% glimpse()
     $ vehicles   <list> <"Snowspeeder", "Imperial Speeder Bike">, <>, <>, <>, "Imp…
     $ starships  <list> <"X-wing", "Imperial shuttle">, <>, <>, "TIE Advanced x1",…
 
-#### 2.4 Сколько уникальных рас персонажей (species) представлено в данных?
+### 5. Сколько уникальных рас персонажей (species) представлено в данных?
 
 ``` r
 unique(starwars$species) -> unique_species
@@ -141,7 +136,7 @@ length(unique_species)
 
     [1] 38
 
-#### 2.5 Найти самого высокого персонажа.
+### 6. Найти самого высокого персонажа.
 
 ``` r
 starwars %>% filter(height == max(height, na.rm = TRUE))
@@ -154,7 +149,7 @@ starwars %>% filter(height == max(height, na.rm = TRUE))
     # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>
 
-#### 2.6 Найти всех персонажей ниже 170
+### 7. Найти всех персонажей ниже 170
 
 ``` r
 starwars %>% filter(height < 170)
@@ -177,7 +172,7 @@ starwars %>% filter(height < 170)
     # ℹ 5 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>
 
-#### 2.7 Подсчитать ИМТ (индекс массы тела) для всех персонажей
+### 8. Подсчитать ИМТ (индекс массы тела) для всех персонажей
 
 ``` r
 IMT <- starwars %>% mutate(imt = mass / (height/100)^2)
@@ -201,7 +196,7 @@ IMT
     # ℹ 6 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>, imt <dbl>
 
-#### 2.8 Найти 10 самых “вытянутых” персонажей
+### 9. Найти 10 самых “вытянутых” персонажей
 
 ``` r
 VIT <- starwars %>% mutate(vit = mass / height)
@@ -225,7 +220,7 @@ VIT
     # ℹ 6 more variables: homeworld <chr>, species <chr>, films <list>,
     #   vehicles <list>, starships <list>, vit <dbl>
 
-#### 2.9 Найти средний возраст персонажей каждой расы вселенной Звездных войн.
+### 10. Найти средний возраст персонажей каждой расы вселенной Звездных войн.
 
 ``` r
 starwars %>% group_by(species) %>%  summarise(avg_birth_year = mean(birth_year, na.rm = TRUE)) %>% filter(!is.na(avg_birth_year))
@@ -250,7 +245,7 @@ starwars %>% group_by(species) %>%  summarise(avg_birth_year = mean(birth_year, 
     14 Yoda's species          896  
     15 Zabrak                   54  
 
-#### 2.10 Найти самый распространенный цвет глаз персонажей вселенной Звездных воин.
+### 11. Найти самый распространенный цвет глаз персонажей вселенной Звездных воин.
 
 ``` r
 starwars %>% count(eye_color, sort = TRUE) %>% slice(1)
@@ -261,7 +256,7 @@ starwars %>% count(eye_color, sort = TRUE) %>% slice(1)
       <chr>     <int>
     1 brown        21
 
-#### 2.11 Подсчитать среднюю длину имени в каждой расе вселенной Звездных войн.
+### 12. Подсчитать среднюю длину имени в каждой расе вселенной Звездных войн.
 
 ``` r
 starwars %>% filter(!is.na(species)) %>% mutate(name_length = nchar(name)) %>% group_by(species) %>% summarise(avg_name_length = mean(name_length, na.rm = TRUE))
@@ -284,9 +279,9 @@ starwars %>% filter(!is.na(species)) %>% mutate(name_length = nchar(name)) %>% g
 
 ## Оценка результата
 
-В ходе решения лабораторной работы были развиты пратические новыки в
-языке программирования R для обработки данных, закрепленны знания
-базовых типов данных R и развиты новые навыки в использовании функций
+В ходе решения лабораторной работы были развиты: 1. Пратические новыки в
+языке программирования R для обработки данных 2. Закрепленны знания
+базовых типов данных R 3. Развиты новые навыки в использовании функций
 паркте dplyr
 
 ## Вывод
