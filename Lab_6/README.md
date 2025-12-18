@@ -389,4 +389,104 @@ event_df
     # ℹ 371 more rows
     # ℹ 1 more variable: `Event Summary` <chr>
 
+``` r
+event_df <- event_df %>%
+  rename(
+    Event_ID    = `Current Windows Event ID`,
+    Legacy_ID   = `Legacy Windows Event ID`,
+    Criticality = `Potential Criticality`,
+    Summary     = `Event Summary`
+  ) %>%
+  mutate(Event_ID = suppressWarnings(as.integer(Event_ID))) %>%
+  filter(!is.na(Event_ID))
+
+glimpse(event_df)
+```
+
+    Rows: 371
+    Columns: 4
+    $ Event_ID    <int> 4618, 4649, 4719, 4765, 4766, 4794, 4897, 4964, 5124, 1102…
+    $ Legacy_ID   <chr> "N/A", "N/A", "612", "N/A", "N/A", "N/A", "801", "N/A", "N…
+    $ Criticality <chr> "High", "High", "High", "High", "High", "High", "High", "H…
+    $ Summary     <chr> "A monitored security event pattern has occurred.", "A rep…
+
 ### Шаг 3. Есть ли в логе события с высоким и средним уровнем значимости? Сколько их?
+
+``` r
+cat("События с уровнем High: ")
+```
+
+    События с уровнем High: 
+
+``` r
+log_h <- sum(log_data_clean$log$level == "High") 
+log_h
+```
+
+    [1] 0
+
+``` r
+cat("События с уровнем Medium: ")
+```
+
+    События с уровнем Medium: 
+
+``` r
+log_m <- sum(log_data_clean$log$level == "Medium")
+log_m
+```
+
+    [1] 0
+
+``` r
+cat("События с уровнем error: ")
+```
+
+    События с уровнем error: 
+
+``` r
+log_e <- sum(log_data_clean$log$level == "error")
+log_e
+```
+
+    [1] 4
+
+``` r
+cat("События с уровнем warning: ")
+```
+
+    События с уровнем warning: 
+
+``` r
+log_w <- sum(log_data_clean$log$level == "warning")
+log_w
+```
+
+    [1] 222
+
+``` r
+cat("Всего событий: ")
+```
+
+    Всего событий: 
+
+``` r
+sum(log_w, log_h, log_e, log_m)
+```
+
+    [1] 226
+
+## Оценка результатов
+
+В ходе выполениния работы, используя программный пакет dplyr языка
+программирования R провкли анализ журналов и ответили на вопросы.
+
+## Вывод
+
+1.  Закрепили навыки исследования данных журнала Windows Active
+    Directory
+2.  Изучили структуру журнала системы Windows Active Directory
+3.  Зекрепили практические навыки использования языка программирования R
+    для обработки данных
+4.  Закрепили знания основных функций обработки данных экосистемы
+    tidyverse языка R
