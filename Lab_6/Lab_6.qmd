@@ -77,9 +77,51 @@ webpage <- read_html(webpage_url)
 event_df <- html_table(webpage, fill = TRUE)[[1]]
 event_df
 ```
+```{r}
+event_df <- event_df %>%
+  rename(
+    Event_ID    = `Current Windows Event ID`,
+    Legacy_ID   = `Legacy Windows Event ID`,
+    Criticality = `Potential Criticality`,
+    Summary     = `Event Summary`
+  ) %>%
+  mutate(Event_ID = suppressWarnings(as.integer(Event_ID))) %>%
+  filter(!is.na(Event_ID))
+
+glimpse(event_df)
+```
+
 ### Шаг 3. Есть ли в логе события с высоким и средним уровнем значимости? Сколько их?
 
+```{r}
+cat("События с уровнем High: ")
+log_h <- sum(log_data_clean$log$level == "High") 
+log_h
 
+cat("События с уровнем Medium: ")
+log_m <- sum(log_data_clean$log$level == "Medium")
+log_m
+
+cat("События с уровнем error: ")
+log_e <- sum(log_data_clean$log$level == "error")
+log_e
+
+cat("События с уровнем warning: ")
+log_w <- sum(log_data_clean$log$level == "warning")
+log_w
+
+cat("Всего событий: ")
+sum(log_w, log_h, log_e, log_m)
+```
+
+## Оценка результатов
+В ходе выполениния работы, используя программный пакет dplyr языка программирования R провкли анализ журналов и ответили на вопросы.
+
+## Вывод
+1. Закрепили навыки исследования данных журнала Windows Active Directory
+2. Изучили структуру журнала системы Windows Active Directory
+3. Зекрепили практические навыки использования языка программирования R для обработки данных
+4. Закрепили знания основных функций обработки данных экосистемы tidyverse языка R
 
 
 
