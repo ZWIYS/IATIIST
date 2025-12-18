@@ -21,3 +21,97 @@ format:
 Используя программный пакет dplyr языка программирования R провести анализ журналов и ответить на вопросы.
 
 ## Подготовка данных
+
+0. Подключение библиотек
+```{r setup, include=FALSE}
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+```
+
+```{r}
+library(tidyverse)
+library(jsonlite)
+library(rvest)
+library(readr)
+library(xml2)
+```
+
+1. Загрузка данных
+```{r}
+data_url <- "https://storage.yandexcloud.net/iamcth-data/dataset.tar.gz"
+temp_archive <- tempfile(fileext = ".tar.gz")  # Временный файл для архива
+extracted_dir <- tempdir()                     # Временная папка для распаковки
+
+download.file(url = data_url, destfile = temp_archive, mode = "wb")
+
+untar(tarfile = temp_archive, exdir = extracted_dir)
+
+json_file_name <- "caldera_attack_evals_round1_day1_2019-10-20201108.json"
+json_file_path <- file.path(extracted_dir, json_file_name)
+```
+```{r}
+log_data <- jsonlite::stream_in(file(json_file_path))
+```
+2. Нормализация данных
+```{r}
+log_data_clean <- log_data %>% unnest(cols = c(event, winlog, host, agent), names_sep = "_")
+log_data_clean <- log_data_clean %>% select(where(~n_distinct(.) > 1))
+```
+
+3. Просмотр структуры журнала
+
+```{r}
+glimpse(log_data_clean)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
