@@ -336,3 +336,57 @@ glimpse(log_data_clean)
     $ winlog_user          <df[,4]> <data.frame[26 x 4]>
     $ winlog_activity_id   <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N…
     $ winlog_user_data     <df[,30]> <data.frame[26 x 30]>
+
+## Анализ данных
+
+### Шаг 1. Какое количество хостов представлено в данном датасете?
+
+``` r
+uni_hosts <- log_data_clean %>% distinct(winlog_computer_name)
+uni_hosts
+```
+
+    # A tibble: 5 × 1
+      winlog_computer_name
+      <chr>               
+    1 HR001.shire.com     
+    2 HFDC01.shire.com    
+    3 IT001.shire.com     
+    4 ACCT001.shire.com   
+    5 FILE001.shire.com   
+
+``` r
+count(uni_hosts)
+```
+
+    # A tibble: 1 × 1
+          n
+      <int>
+    1     5
+
+### Шаг 2. Подготовьте датафрейм с расшифровкой Windows Event_ID, приведите типы данных к типу их значений.
+
+``` r
+webpage_url <- "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor"
+webpage <- read_html(webpage_url)
+event_df <- html_table(webpage, fill = TRUE)[[1]]
+event_df
+```
+
+    # A tibble: 381 × 4
+       `Current Windows Event ID` `Legacy Windows Event ID` `Potential Criticality`
+       <chr>                      <chr>                     <chr>                  
+     1 4618                       N/A                       High                   
+     2 4649                       N/A                       High                   
+     3 4719                       612                       High                   
+     4 4765                       N/A                       High                   
+     5 4766                       N/A                       High                   
+     6 4794                       N/A                       High                   
+     7 4897                       801                       High                   
+     8 4964                       N/A                       High                   
+     9 5124                       N/A                       High                   
+    10 N/A                        550                       Medium to High         
+    # ℹ 371 more rows
+    # ℹ 1 more variable: `Event Summary` <chr>
+
+### Шаг 3. Есть ли в логе события с высоким и средним уровнем значимости? Сколько их?

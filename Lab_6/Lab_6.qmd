@@ -63,11 +63,21 @@ log_data_clean <- log_data_clean %>% select(where(~n_distinct(.) > 1))
 glimpse(log_data_clean)
 ```
 
-
-
-
-
-
+## Анализ данных
+### Шаг 1. Какое количество хостов представлено в данном датасете?
+```{r}
+uni_hosts <- log_data_clean %>% distinct(winlog_computer_name)
+uni_hosts
+count(uni_hosts)
+```
+### Шаг 2. Подготовьте датафрейм с расшифровкой Windows Event_ID, приведите типы данных к типу их значений.
+```{r}
+webpage_url <- "https://learn.microsoft.com/en-us/windows-server/identity/ad-ds/plan/appendix-l--events-to-monitor"
+webpage <- read_html(webpage_url)
+event_df <- html_table(webpage, fill = TRUE)[[1]]
+event_df
+```
+### Шаг 3. Есть ли в логе события с высоким и средним уровнем значимости? Сколько их?
 
 
 
