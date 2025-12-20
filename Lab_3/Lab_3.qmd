@@ -91,7 +91,7 @@ airports %>% arrange(desc(lat)) %>% head(1)
 
 ### Шаг 8.Какой самый высокогорный аэропорт?
 ```{r}
-airports %>% arrange(desc(alt)) %>% heaD(1)
+airports %>% arrange(desc(alt)) %>% head(1)
 ```
 
 ### Шаг 9.Какие бортовые номера у самых старых самолетов?
