@@ -36,41 +36,51 @@ options(repos = c(CRAN = "https://cloud.r-project.org/"))
 library(tidyverse)
 library(lubridate)
 library(dplyr)
+library(stringr)
 ```
-1. Загрузка данных
+1. Загрузка и подготовка данных
 ```{R}
-Data <- read.csv('./P2_wifi_data.csv')
-head(Data)
-```
+# Чтение данных о точках доступа
+access_points <- read_csv(
+  'P2_wifi_data.csv',
+  n_max = 167,
+  col_types = cols(
+    .default = col_character(),
+    First.time.seen = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+    Last.time.seen = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+    Channel = col_integer(),
+    Speed = col_number(),
+    Power = col_number(),
+    `# beacons` = col_integer(),
+    `# IV` = col_number()
+  )
+)
 
-2. Привести датасеты в вид “аккуратных данных”, преобразовать типы столбцов в
-соответствии с типом данных
+# Чтение данных о клиентах
+client_requests <- read_csv(
+  'P2_wifi_data.csv',
+  skip = 169,
+  col_types = cols(
+    .default = col_character(),
+    First.time.seen = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+    Last.time.seen = col_datetime(format = "%Y-%m-%d %H:%M:%S"),
+    Power = col_number(),
+    `# packets` = col_integer()
+  )
+)
 
-```{r}
-access_points <- read.csv('./P2_wifi_data.csv', nrows = 167, stringsAsFactors = FALSE)
-access_points$First.time.seen <- as.POSIXct(access_points$First.time.seen, format="%Y-%m-%d %H:%M:%S")
-access_points$Last.time.seen  <- as.POSIXct(access_points$Last.time.seen, format="%Y-%m-%d %H:%M:%S")
-access_points$channel         <- as.integer(access_points$channel)
-access_points$Speed           <- as.numeric(access_points$Speed)
-access_points$Power           <- as.numeric(access_points$Power)
-access_points$X..beacons      <- as.integer(access_points$X..beacons)
-access_points$X..IV           <- as.numeric(access_points$X..IV)
-access_points$ESSID <- as.character(access_points$ESSID)
-access_points$Key   <- as.character(access_points$Key)
+# Переименование столбцов для удобства
+access_points <- access_points %>%
+  rename(
+    beacons = `# beacons`,
+    iv_count = `# IV`
+  )
 
-client_requests <- read.csv('./P2_wifi_data.csv', skip = 169, stringsAsFactors = FALSE)
-client_requests$First.time.seen <- as.POSIXct(client_requests$First.time.seen, format="%Y-%m-%d %H:%M:%S")
-client_requests$Last.time.seen  <- as.POSIXct(client_requests$Last.time.seen, format="%Y-%m-%d %H:%M:%S")
-client_requests$Power           <- as.numeric(client_requests$Power)
-client_requests$X..packets      <- as.integer(client_requests$X..packets)
-client_requests$BSSID           <- as.character(client_requests$BSSID)
-client_requests$Probed.ESSIDs   <- as.character(client_requests$Probed.ESSIDs)
-client_requests$Station.MAC     <- as.character(client_requests$Station.MAC)
-```
+client_requests <- client_requests %>%
+  rename(
+    packets = `# packets`
+  )
 
-3. Просмотрите общую структуру данных с помощью функции glimpse()
-
-```{R}
 glimpse(access_points)
 glimpse(client_requests)
 ```
@@ -80,7 +90,7 @@ glimpse(client_requests)
 ### Шаг 1. Определить небезопасные точки доступа (без шифрования – OPN)
 
 ```{R}
-AP_nOPN <- access_points %>% filter(str_detect(toupper(Privacy), "OPN")) %>% select(BSSID)
+AP_nOPN <- access_points %>% filter(str_detect(toupper(Privacy), "OPN")) %>% select(BSSID, ESSID)
 AP_nOPN
 ```
 
@@ -105,19 +115,43 @@ head(AP_nOPN)
 ### Шаг 3. Выявить устройства, использующие последнюю версию протокола шифрования WPA3, и названия точек доступа, реализованных на этих устройствах
 
 ```{R}
-access_points %>%
+wpa3_devices <- access_points %>%
   filter(str_detect(toupper(Privacy), "WPA3")) %>%
-  select(BSSID, ESSID) %>%
-  distinct()
+  select(BSSID, ESSID, Privacy, Cipher, Speed, channel) %>%
+  arrange(desc(Speed))
+
+  print(wpa3_devices)
 ```
 
 ### Шаг 4. Отсортировать точки доступа по интервалу времени, в течение которого они находились на связи, по убыванию.
 ```{r}
-access_points %>% 
-  mutate(duration = as.numeric(
-    difftime(Last.time.seen, First.time.seen, units = "secs"))
-    ) %>% 
-  arrange(desc(duration)) %>% select(BSSID, duration) %>% head(10)
+print(sapply(access_points, class)[grepl("time|Time|seen|Seen", names(access_points))])
+
+access_points_times <- access_points %>%
+  mutate(
+    first_seen = as.POSIXct(`First time seen`, format = "%Y-%m-%d %H:%M:%S"),
+    last_seen = as.POSIXct(`Last time seen`, format = "%Y-%m-%d %H:%M:%S")
+  )
+
+
+ap_activity <- access_points_times %>%
+  mutate(
+    activity_duration = as.numeric(
+      difftime(last_seen, first_seen, units = "hours")
+    )
+  ) %>%
+  filter(activity_duration > 0) %>%
+  select(BSSID, ESSID, first_seen, last_seen, activity_duration, channel) %>%
+  arrange(desc(activity_duration))
+
+ap_activity %>%
+  head(10) %>%
+  mutate(
+    activity_duration = round(activity_duration, 2),
+    first_time = format(first_seen, "%H:%M"),
+    last_time = format(last_seen, "%H:%M")
+  ) %>%
+  select(BSSID, ESSID, channel, first_time, last_time, activity_duration)
 ```
 
 ### Шаг 5. Обнаружить топ-10 самых быстрых точек доступа.
@@ -129,17 +163,40 @@ access_points %>% arrange(desc(Speed)) %>% head(10)
 ### Шаг 6. Отсортировать точки доступа по частоте отправки запросов (beacons) в единицу времени по их убыванию.
 
 ```{R}
-library(dplyr)
-
-access_points %>%
+access_points_times <- access_points %>%
   mutate(
-    duration = as.numeric(difftime(Last.time.seen, First.time.seen, units = "secs")),
-    beacons_per_second = X..beacons / duration
+    first_seen = as.POSIXct(`First time seen`, format = "%Y-%m-%d %H:%M:%S"),
+    last_seen = as.POSIXct(`Last time seen`, format = "%Y-%m-%d %H:%M:%S")
+  )
+
+
+beacon_stats <- access_points_times %>%
+  mutate(
+    duration_sec = as.numeric(
+      difftime(last_seen, first_seen, units = "secs")
+    ),
+    beacons_per_sec = if_else(
+      duration_sec > 0,
+      beacons / duration_sec,
+      NA_real_
+    )
   ) %>%
-  filter(duration != 0) %>%
-  arrange(desc(beacons_per_second)) %>%
-  select(BSSID, beacons_per_second) %>%
-  head()
+  filter(!is.na(beacons_per_sec) & beacons_per_sec > 0) %>%
+  select(BSSID, ESSID, beacons, duration_sec, beacons_per_sec, channel) %>%
+  arrange(desc(beacons_per_sec))
+
+cat("### Интенсивность отправки beacon-фреймов (топ-10):\n")
+if(nrow(beacon_stats) > 0) {
+  beacon_stats %>%
+    head(10) %>%
+    mutate(
+      beacons_per_sec = round(beacons_per_sec, 2),
+      duration_min = round(duration_sec / 60, 1)
+    ) %>%
+    select(BSSID, ESSID, channel, beacons, duration_min, beacons_per_sec)
+} else {
+  cat("Нет данных для анализа beacon-фреймов.\n")
+}
 ```
 
 
@@ -185,56 +242,126 @@ result
 
 2. Обнаружить устройства, которые НЕ рандомизируют свой MAC адрес
 ```{R}
-library(dplyr)
-library(stringr)
+is_global_mac <- function(mac) {
+  if (is.na(mac) || mac == "" || mac == "(not associated)") return(FALSE)
+  
+  mac_clean <- gsub("[-: ]", "", toupper(mac))
 
-NotUniqueDevice <- client_requests %>%
-  filter(!is.na(Station.MAC)) %>%                         # убираем пустые
-  filter(!toupper(substr(Station.MAC, 2, 2)) %in% c("2","6","A","E")) %>%  # локальный бит
-  select(Station.MAC) %>%
-  distinct()  
+  if (!grepl("^[0-9A-F]{12}$", mac_clean)) return(FALSE)
+  
+  first_octet_hex <- substr(mac_clean, 1, 2)
+  first_octet_bin <- strtoi(first_octet_hex, base = 16)
+  
+  local_bit <- bitwAnd(first_octet_bin, 0x02) != 0
+  
+  return(!local_bit) 
+}
 
-head(NotUniqueDevice)
+devices_real_mac <- client_requests %>%
+  filter(!is.na(`Station MAC`) & `Station MAC` != "(not associated)") %>%
+  mutate(
+    is_global = map_lgl(`Station MAC`, is_global_mac)
+  ) %>%
+  filter(is_global) %>%
+  select(`Station MAC`, BSSID, `Probed ESSIDs`, Power) %>%
+  distinct()
+
+
+if(nrow(devices_real_mac) > 0) {
+  devices_real_mac
+
+} 
+
+
+
+mac_stats <- client_requests %>%
+  filter(!is.na(`Station MAC`) & `Station MAC` != "(not associated)") %>%
+  summarise(
+    total_devices = n_distinct(`Station MAC`),
+    global_macs = sum(map_lgl(`Station MAC`, is_global_mac), na.rm = TRUE),
+    percentage_global = round(global_macs / total_devices * 100, 1)
+  )
+
 ```
 
 
 3. Кластеризовать запросы от устройств к точкам доступа по их именам. Определить время появления устройства в зоне радиовидимости и время выхода его из нее.
 
 ```{R}
-library(dplyr)
-
-grouped_data <- client_requests %>%
-  group_by(Probed.ESSIDs) %>%
+client_clusters <- client_requests %>%
+  filter(!is.na(`Probed ESSIDs`) & `Probed ESSIDs` != "") %>%
+  mutate(
+    first_time = as.POSIXct(`First time seen`, format = "%Y-%m-%d %H:%M:%S"),
+    last_time = as.POSIXct(`Last time seen`, format = "%Y-%m-%d %H:%M:%S")
+  ) %>%
+  group_by(`Probed ESSIDs`) %>%
   summarise(
-    unique_devices = n_distinct(Station.MAC),
-    first_time_seen = min(First.time.seen, na.rm = TRUE),
-    last_time_seen  = max(Last.time.seen, na.rm = TRUE),
+    device_count = n_distinct(`Station MAC`),
+    first_detection = min(first_time, na.rm = TRUE),  
+    last_detection = max(last_time, na.rm = TRUE),    
+    avg_power = mean(Power, na.rm = TRUE),
+    total_packets = sum(packets, na.rm = TRUE),
     .groups = "drop"
-  )
+  ) %>%
+  mutate(
+    observation_period = as.numeric(
+      difftime(last_detection, first_detection, units = "hours")
+    )
+  ) %>%
+  arrange(desc(device_count))
 
-head(grouped_data)
+if(nrow(client_clusters) > 0) {
+  result <- client_clusters %>%
+    mutate(
+      first_time_str = format(first_detection, "%H:%M"),
+      last_time_str = format(last_detection, "%H:%M"),
+      observation_period = round(observation_period, 2),
+      avg_power = round(avg_power, 1)
+    ) %>%
+    select(
+      `Probed ESSIDs`, 
+      device_count, 
+      first_time_str, 
+      last_time_str, 
+      observation_period, 
+      avg_power, 
+      total_packets
+    )
+  result}
 ```
 
 4. Оценить стабильность уровня сигнала внури кластера во времени. Выявить наиболее стабильный кластер.
 
 ```{R}
-library(dplyr)
-
 shortest_sd_essid <- client_requests %>%
-  mutate(duration = as.integer(difftime(Last.time.seen, First.time.seen, units = "secs"))) %>%
-  filter(duration != 0, !is.na(Probed.ESSIDs)) %>%
-  group_by(Probed.ESSIDs) %>%
+  mutate(
+    first_time = as.POSIXct(`First time seen`, format = "%Y-%m-%d %H:%M:%S"),
+    last_time = as.POSIXct(`Last time seen`, format = "%Y-%m-%d %H:%M:%S"),
+    duration = as.numeric(difftime(last_time, first_time, units = "secs"))
+  ) %>%
+  filter(duration > 0 & !is.na(`Probed ESSIDs`) & `Probed ESSIDs` != "") %>%
+  group_by(`Probed ESSIDs`) %>%
   summarise(
     Mean = mean(duration, na.rm = TRUE),
-    Sd   = sd(duration, na.rm = TRUE),
+    Sd = sd(duration, na.rm = TRUE),
+    Count = n(),
     .groups = "drop"
   ) %>%
-  filter(!is.na(Sd) & Sd != 0) %>%
+  filter(!is.na(Sd) & Sd > 0) %>%
   arrange(Sd) %>%
-  select(Probed.ESSIDs, Mean, Sd) %>%
-  slice_head(n = 1)
-
-shortest_sd_essid
+  select(`Probed ESSIDs`, Count, Mean, Sd) %>%
+  head(1)  # Берем только самую стабильную
+if(nrow(shortest_sd_essid) > 0) {
+  result <- shortest_sd_essid %>%
+    mutate(
+      Mean_min = round(Mean / 60, 2),
+      Sd_min = round(Sd / 60, 2),
+      `Probed ESSIDs` = if_else(
+        nchar(`Probed ESSIDs`) > 40,
+        paste0(substr(`Probed ESSIDs`, 1, 37), "..."),
+        `Probed ESSIDs`))
+      
+      result}
 ```
 
 ## Оценка результатов
